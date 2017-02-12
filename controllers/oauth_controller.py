@@ -4,6 +4,7 @@ from google.appengine.api import urlfetch
 import secret
 import urllib
 import json
+import state_controller
 
 class OauthController(BaseController):
 	"""Retrieves data from Google after they are redirected back
@@ -15,7 +16,7 @@ class OauthController(BaseController):
 		redirect_params = secret.oauth_redirect_params()
 		state = self.request.get('state')
 		#make sure state matches
-		if state != redirect_params['state']:
+		if state != state_controller.get_state():
 			#bad request
 			self.response.set_status(400)
 			self.response.write("State variable does not match")	
